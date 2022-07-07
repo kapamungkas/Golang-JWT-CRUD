@@ -4,4 +4,4 @@ VALUES
 	('fc7f19bd-a9a8-445c-bf5f-6e73936ff24f', 'admin', '$2a$14$YcBNkbqjbzUzEH3EQzPIA.0U.KXzFOFn0xAc6vgNhAvygbjmCxrhq', 'angga', 'pamungkas', 'kap21kap@gmail.com', '3434534', 'admin', '831252_realsam_o2_logo_partner.png', 0, NULL, NULL, '2022-07-07 15:54:24', '2022-07-07 15:54:24');
 
 
--- goose mysql "root:password_root_betest123@/betest?parseTime=true" up
+-- goose mysql "root:password_root_betest123@tcp(mysql)/betest?parseTime=true" up
