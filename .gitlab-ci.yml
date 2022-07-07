@@ -1,0 +1,49 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  CONTAINER_REGISTRY: registry.gitlab.com/kapamungkas/sebarkan
+
+build:
+  stage: build
+  image: docker
+  only:
+    - main
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  before_script:
+    - docker version
+  script:
+    # - cp $BUILD_ENV_FILE build-env.json
+    - docker build -f Dockerfile -t ${CONTAINER_REGISTRY}/backend:latest .
+  after_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker push ${CONTAINER_REGISTRY}/backend:latest
+
+deploy:
+  stage: deploy
+  only:
+    - main
+  image: dewadg/deploy:1.0
+  variables:
+    CB_STACK: backend
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SERVER_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  script:
+    - scp -o StrictHostKeyChecking=no docker-compose.yml $SERVER_USER@$SERVER_ADDRESS:~/backend/$CB_STACK.yml
+    - scp -o StrictHostKeyChecking=no $ENV_PROD $SERVER_USER@$SERVER_ADDRESS:~/backend/.env
+    - |
+      ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_ADDRESS "
+        export CB_STACK=$CB_STACK
+        cd ~/backend
+        # sudo docker image rm -f ${CONTAINER_REGISTRY}/backend
+        docker-compose -f $CB_STACK.yml up -d --build
+        rm $CB_STACK.yml
+        rm .env
+        exit
+      "

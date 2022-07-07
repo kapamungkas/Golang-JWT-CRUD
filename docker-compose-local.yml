@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  backend_betest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9090:8080
+    env_file:
+      - .env
+    volumes:
+      - ./storages:/app/cmd/storages/
+  mysql:
+    image: mariadb:10.5.8
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: betest
+      MYSQL_USER: user_betest
+      MYSQL_PASSWORD: password_betest123
+      MYSQL_ROOT_PASSWORD: password_root_betest123
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - betest_default
+
+networks:
+  betest_default:
+    external: true
+

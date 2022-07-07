@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  backend_sebarkan:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    restart: always
+    image: registry.gitlab.com/kapamungkas/sebarkan/backend:latest
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    volumes:
+      - ./storages:/app/cmd/storages/
+      
