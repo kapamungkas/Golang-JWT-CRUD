@@ -35,8 +35,8 @@ deploy:
     - eval $(ssh-agent -s)
     - echo "$SERVER_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   script:
-    - scp -o StrictHostKeyChecking=no docker-compose.yml $SERVER_USER@$SERVER_ADDRESS:~/backend/$CB_STACK.yml
-    - scp -o StrictHostKeyChecking=no $ENV_PROD $SERVER_USER@$SERVER_ADDRESS:~/backend/.env
+    - scp -o StrictHostKeyChecking=no docker-compose.yml $SERVER_USER@$SERVER_ADDRESS:~/betest/$CB_STACK.yml
+    - scp -o StrictHostKeyChecking=no $ENV_PROD $SERVER_USER@$SERVER_ADDRESS:~/betest/.env
     - |
       ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_ADDRESS "
         export CB_STACK=$CB_STACK
