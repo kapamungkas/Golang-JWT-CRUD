@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  backend_sebarkan:
+  backend_be-test:
     # build:
     #   context: .
     #   dockerfile: Dockerfile
     restart: always
-    image: registry.gitlab.com/kapamungkas/sebarkan/backend:latest
+    image: registry.gitlab.com/kapamungkas/be-test/backend:latest
     ports:
       - 8080:8080
     env_file:

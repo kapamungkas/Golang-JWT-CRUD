@@ -3,7 +3,7 @@ stages:
   - deploy
 
 variables:
-  CONTAINER_REGISTRY: registry.gitlab.com/kapamungkas/sebarkan
+  CONTAINER_REGISTRY: registry.gitlab.com/kapamungkas/be-test
 
 build:
   stage: build
