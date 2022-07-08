@@ -34,7 +34,7 @@ func InitRoute(db *sql.DB) {
 			user_group.DELETE("/:id", middlewares.UserMiddleware([]string{"admin"}), user_handler.DeleteUser)
 			user_group.PATCH("/change-password/:id", user_handler.ChangePassword)
 
-			user_group.GET("/my-profile", middlewares.UserMiddleware([]string{"admin", "user"}), user_handler.MyProfile)
+			user_group.GET("/u/my-profile", middlewares.UserMiddleware([]string{"admin", "user"}), user_handler.MyProfile)
 		}
 
 		auth_group := api_group.Group("/auth")
