@@ -285,3 +285,23 @@ func (h userHandler) ChangePassword(c *gin.Context) {
 		"message": "Change password success",
 	})
 }
+
+func (h userHandler) MyProfile(c *gin.Context) {
+	id := c.GetString("user_id")
+	user, err := h.UserService.FindUserByID(id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  400,
+			"message": err.Error(),
+			"data":    "",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  200,
+		"message": "Success find data",
+		"data":    user,
+	})
+}

@@ -27,12 +27,14 @@ func InitRoute(db *sql.DB) {
 			user_handler := handlers.NewUserHandler(user_service)
 
 			user_group.GET("/", middlewares.UserMiddleware([]string{"admin"}), user_handler.GetAllUser)
-			user_group.GET("/:id", middlewares.UserMiddleware([]string{"admin", "user"}), user_handler.FindUserByID)
-			// user_group.POST("/", middlewares.UserMiddleware([]string{"admin"}), user_handler.CreateUser)
-			user_group.POST("/", user_handler.CreateUser)
+			user_group.GET("/:id", middlewares.UserMiddleware([]string{"admin"}), user_handler.FindUserByID)
+			user_group.POST("/", middlewares.UserMiddleware([]string{"admin"}), user_handler.CreateUser)
+			// user_group.POST("/", user_handler.CreateUser)
 			user_group.PATCH("/:id", middlewares.UserMiddleware([]string{"admin"}), user_handler.UpdateUser)
 			user_group.DELETE("/:id", middlewares.UserMiddleware([]string{"admin"}), user_handler.DeleteUser)
 			user_group.PATCH("/change-password/:id", user_handler.ChangePassword)
+
+			user_group.GET("/my-profile", middlewares.UserMiddleware([]string{"admin", "user"}), user_handler.MyProfile)
 		}
 
 		auth_group := api_group.Group("/auth")

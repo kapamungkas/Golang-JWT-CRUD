@@ -41,7 +41,7 @@ deploy:
       ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_ADDRESS "
         export CB_STACK=$CB_STACK
         cd ~/betest
-        # sudo docker image rm -f ${CONTAINER_REGISTRY}/backend
+        sudo docker image rm -f ${CONTAINER_REGISTRY}/backend
         docker-compose -f $CB_STACK.yml up -d --build
         rm $CB_STACK.yml
         rm .env
